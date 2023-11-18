@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
-function App() {
+import { ProtectedRoute } from './routes/ProtectedRoute';
+
+import { ClassAttendance } from './pages/ClassAttendance';
+import { ClassDebts } from './pages/ClassDebts';
+import { Login } from './pages/Login';
+import { Profile } from './pages/Profile';
+import { Statistic } from './pages/Statistic';
+import { StudentsSchedule } from './pages/Schedule/StudentsSchedule';
+import { TeacherSchedule } from './pages/Schedule/TeacherSchedule';
+import { UserManual } from './pages/UserManual';
+
+export const App = () => {
+  const isAuthorized = useSelector((state) => state.auth.success);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route element={<ProtectedRoute isAuthorized={isAuthorized} />}>
+        <Route path="/" element={<Profile />}/>
+        <Route path="/schedule" element={<StudentsSchedule />}/>
+        <Route path="/schedule/teacher/:teacherName" element={<TeacherSchedule />}/>
+        <Route path="/statistic" element={<Statistic />}/>
+        <Route path="/attendance" element={<ClassAttendance />}/>
+        <Route path="/debts" element={<ClassDebts />}/>
+        <Route path="/manual" element={<UserManual />}/>
+        <Route path="*" element={<Navigate to="/" replace={true} />}/>
+      </Route>
+    </Routes>
   );
 }
-
-export default App;
