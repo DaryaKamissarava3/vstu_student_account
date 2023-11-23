@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import React, {useEffect, useState} from 'react';
+import {Link} from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux';
 
-import { fetchTeacherSchedule } from '../../../../store/scheduleSlice';
+import {fetchTeacherSchedule} from '../../../../store/scheduleSlice';
 
-import { tableHeaderForStudents, tableHeaderForTeacher } from '../../../../assets/utils/arrays';
+import {tableHeaderForStudents, tableHeaderForTeacher} from '../../../../assets/utils/arrays';
 import {
   generateClassName,
-  matchDayOfWeek,
   matchLessonTime,
   matchLessonTypeAbbreviation,
   shortenDisciplineName,
@@ -17,26 +16,27 @@ import {
 import teacherImg from '../../../../assets/images/avatar.svg';
 import './style.css';
 
-export const Table = ({weekDay, weekName, weekNumber, scheduleData, isTeacherSchedule}) => {
+export const Table = ({scheduleData, isTeacherSchedule}) => {
+  const currentWeekDay = useSelector((state) => state.weekData.weekDay);
+  const currentWeekNumber = useSelector((state) => state.weekData.weekNumber);
+  const currentWeekName = useSelector((state) => state.weekData.weekName);
 
-  const [filteredSchedule, setFilteredSchedule] = useState([]);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (scheduleData) {
-      setFilteredSchedule(filterSchedule(weekDay, weekNumber, weekName, scheduleData));
-    }
-  }, [weekDay, weekName, weekNumber, scheduleData]);
+  const [filteredSchedule, setFilteredSchedule] = useState([]);
 
+  useEffect(() => {
+    setFilteredSchedule(filterSchedule(currentWeekDay, currentWeekNumber, currentWeekName, scheduleData));
+  }, [currentWeekDay, currentWeekNumber, currentWeekName, scheduleData]);
 
   const filterSchedule = (day, week, name, scheduleArray) => {
-    const translateDayFromSelect = matchDayOfWeek(day);
+    console.log(scheduleArray);
     return scheduleArray.filter(item => {
       if (week === 'все') {
-        return (item.lessonDay === translateDayFromSelect);
+        return (item.lessonDay === day);
       } else {
         return (
-          item.lessonDay === translateDayFromSelect &&
+          item.lessonDay === day &&
           (item.weekNumber === null || item.weekNumber === week) &&
           (item.numerator === null ||
             (name === true ? item.numerator === true : item.numerator === false))
@@ -113,7 +113,7 @@ export const Table = ({weekDay, weekName, weekNumber, scheduleData, isTeacherSch
       </div>
       <div className="schedule-table_mobile">
         <div className="mobile-table-container">
-          <div className="mobile-table-header">{weekDay}</div>
+          <div className="mobile-table-header">{currentWeekDay}</div>
           {filteredSchedule.length === 0 ? (
             <div className="mobile-table-block">
               <h3 className="block_no_lessons">Пары отсутствуют</h3>

@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {Link} from 'react-router-dom';
+
+import { getStudentInfo } from '../../store/studentSlice';
 
 import {MainLayout} from '../../layouts/MainLayout';
 
@@ -13,13 +16,23 @@ import achievement3 from '../../assets/images/profileIcons/achievement3.svg';
 import './style.css';
 
 export const Profile = () => {
+  const dispatch=useDispatch();
+
+  const userName = useSelector((state) => state.auth.userInfo.fio);
+  const userToken=useSelector((state)=>state.auth.userToken);
+
+  useEffect(()=>{
+    dispatch(getStudentInfo(userToken));
+  },[userToken]);
+
+
   return (
     <MainLayout>
       <div className="profile">
         <div className="profile-block">
           <div className="profile-block__inner">
             <img className="profile__img" src={personPhoto} alt="person photo"/>
-            <h2 className="profile__name">Абазовская Анна Николаевна</h2>
+            <h2 className="profile__name">{userName}</h2>
             <Link to="/edit-profile" className="sidebar-button active">
               <div className="button-content">
                 <img src={penIcon} alt="Button icon" className="button_icon"/>
@@ -43,7 +56,7 @@ export const Profile = () => {
         </div>
         <div className="profile-block greeting">
           <div className="name">
-            <h2>Зравствуйте, Наталья!</h2>
+            <h2>Зравствуйте, {userName}!</h2>
             <p>Сегодня - Понедельник, 28 августа 2022</p>
           </div>
           <div className="achievements-block">

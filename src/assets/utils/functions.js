@@ -32,6 +32,11 @@ export const matchDayOfWeek = (lessonDay) => {
   return match ? match.dayInEnglish : '';
 }
 
+export const matchDayOfWeek2 = (lessonDay) => {
+  const match = russianToEnglishWeekdays.find((item) => item.dayInEnglish === lessonDay);
+  return match ? match.dayInRussian : '';
+}
+
 export const matchLessonTypeAbbreviation = (typeClassName) => {
   const match = lessonAbbreviations.find((item) => item.typeClassName === typeClassName);
   return match ? match.abbreviation : '';

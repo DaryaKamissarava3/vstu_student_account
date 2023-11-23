@@ -7,18 +7,15 @@ import { ScheduleSelectors } from '../ScheduleComponents/ScheduleSelectors';
 
 import teacherImg from '../../../assets/images/avatar.svg';
 import './style.css';
+import {MainLayout} from "../../../layouts/MainLayout";
 
 export const TeacherSchedule = () => {
   const {teacherName} = useParams();
 
   const scheduleArray = useSelector((state) => state.schedule.teacherScheduleData);
 
-  const currentWeekDay = useSelector((state) => state.weekNumber.weekNumber);
-  const currentWeekNumber = useSelector((state) => state.weekNumber.weekNumber);
-  const currentWeekName = useSelector((state) => state.weekName.weekName);
-
   return (
-    <>
+    <MainLayout>
       <div className="teacher-information-block">
         <img className="teacher-block-img" src={teacherImg} alt="Teacher img"/>
         <div>
@@ -27,12 +24,9 @@ export const TeacherSchedule = () => {
       </div>
       <ScheduleSelectors />
       <Table
-        weekDay={currentWeekDay}
-        weekNumber={currentWeekNumber}
-        weekName={currentWeekName}
         scheduleData={scheduleArray}
         isTeacherSchedule={true}
       />
-    </>
+    </MainLayout>
   );
 };

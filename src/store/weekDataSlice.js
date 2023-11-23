@@ -1,22 +1,29 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
 
-export const fetchWeekName = createAsyncThunk(
-  'weekData/fetchWeekName',
-  async (_, {rejectWithValue}) => {
+export const fetchWeekDay = createAsyncThunk(
+  'weekData/fetchWeekDay',
+  async (token, {rejectWithValue}) => {
     try {
-      const response = await axios.get('https://student.vstu.by/timetable/content/nameOfWeek');
+      const config = {
+        headers: {
+          'Content-type': "application/x-www-form-urlencoded",
+          'Authorization': `Bearer ${token}`,
+        },
+      };
 
-      if (response.status !== 200) {
-        throw new Error('Server error!');
-      }
+      const {data} = await axios.get(
+        'https://student.vstu.by/api/schedules/day',
+        config
+      );
 
-      return response.data;
+      return data;
     } catch (error) {
       return rejectWithValue(error.message);
     }
   }
 );
+
 
 export const fetchWeekNumber = createAsyncThunk(
   'weekData/fetchWeekNumber',
@@ -35,6 +42,23 @@ export const fetchWeekNumber = createAsyncThunk(
   }
 );
 
+export const fetchWeekName = createAsyncThunk(
+  'weekData/fetchWeekName',
+  async (_, {rejectWithValue}) => {
+    try {
+      const response = await axios.get('https://student.vstu.by/timetable/content/nameOfWeek');
+
+      if (response.status !== 200) {
+        throw new Error('Server error!');
+      }
+
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 const initialState = {
   weekDay: null,
   weekNumber: null,
@@ -47,15 +71,6 @@ const weekDataSlice = createSlice({
   name: 'weekData',
   initialState,
   reducers: {
-    getWeekDay(state,action){
-      state.weekDay=action.payload;
-    },
-    getWeekName(state, action) {
-      state.weekName = action.payload;
-    },
-    getWeekNumber(state, action) {
-      state.weekNumber = action.payload;
-    },
     setWeekDay(state, action) {
       state.weekDay = action.payload;
     },
@@ -64,10 +79,38 @@ const weekDataSlice = createSlice({
     },
     setWeekName(state, action) {
       state.weekName = action.payload;
+    },
+    clearWeekData(state){
+      state.weekDay=null;
+      state.weekNumber=null;
+      state.weekName=null;
+      state.status=null;
     }
   },
   extraReducers: (builder) => {
     builder
+    .addCase(fetchWeekDay.pending, (state) => {
+      state.status = 'loading';
+      state.error = null;
+    })
+    .addCase(fetchWeekDay.fulfilled, (state, action) => {
+      state.status = 'resolved';
+      state.weekDay = action.payload;
+    })
+    .addCase(fetchWeekDay.rejected, (state) => {
+      state.status = 'rejected';
+    })
+      .addCase(fetchWeekNumber.pending, (state) => {
+        state.status = 'loading';
+        state.error = null;
+      })
+      .addCase(fetchWeekNumber.fulfilled, (state, action) => {
+        state.status = 'resolved';
+        state.weekNumber = action.payload;
+      })
+      .addCase(fetchWeekNumber.rejected, (state) => {
+        state.status = 'rejected';
+      })
       .addCase(fetchWeekName.pending, (state) => {
         state.status = 'loading';
         state.error = null;
@@ -79,27 +122,14 @@ const weekDataSlice = createSlice({
       .addCase(fetchWeekName.rejected, (state) => {
         state.status = 'rejected';
       })
-      .addCase(fetchWeekNumber.pending, (state) => {
-        state.status = 'loading';
-        state.error = null;
-      })
-      .addCase(fetchWeekNumber.fulfilled, (state, action) => {
-        state.status = 'resolved';
-        state.weekNumber = action.payload;
-      })
-      .addCase(fetchWeekNumber.rejected, (state) => {
-        state.status = 'rejected';
-      });
   }
 });
 
 export const {
-  getWeekDay,
-  getWeekName,
-  getWeekNumber,
   setWeekDay,
   setWeekNumber,
   setWeekName,
+  clearWeekData
 } = weekDataSlice.actions;
 
 export const weekDataReducer = weekDataSlice.reducer;

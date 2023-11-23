@@ -35,7 +35,6 @@ export const fetchTeacherSchedule = createAsyncThunk(
   }
 );
 
-
 const initialState = {
   studentsScheduleData: [],
   teacherScheduleData: [],
@@ -49,17 +48,11 @@ const scheduleSlice = createSlice({
   name: 'schedule',
   initialState,
   reducers: {
-    getStudentSchedule(state,action){
-      state.studentsScheduleData = action.payload;
-      state.studentsScheduleStatus = null;
-    },
     clearSchedule(state) {
       state.studentsScheduleData = [];
       state.studentsScheduleStatus = null;
       state.teacherScheduleData = [];
       state.teacherScheduleStatus = null;
-      state.teacherWeekScheduleData = [];
-      state.teacherWeekScheduleStatus=null;
     },
   },
   extraReducers: (builder => {
@@ -89,6 +82,6 @@ const scheduleSlice = createSlice({
   })
 });
 
-export const { getStudentSchedule,clearSchedule } = scheduleSlice.actions;
+export const { clearSchedule } = scheduleSlice.actions;
 
 export const scheduleReducer = scheduleSlice.reducer;

@@ -9,15 +9,17 @@ import {
   setWeekNumber
 } from '../../../../store/weekDataSlice';
 
+import {matchDayOfWeek2} from '../../../../assets/utils/functions';
+
 import './style.css';
 
 const dayOptions = [
-  {value: 'Понедельник', label: 'Понедельник'},
-  {value: 'Вторник', label: 'Вторник'},
-  {value: 'Среда', label: 'Среда'},
-  {value: 'Четверг', label: 'Четверг'},
-  {value: 'Пятница', label: 'Пятница'},
-  {value: 'Суббота', label: 'Суббота'},
+  {value: 'MONDAY', label: 'Понедельник'},
+  {value: 'TUESDAY', label: 'Вторник'},
+  {value: 'WEDNESDAY', label: 'Среда'},
+  {value: 'THURSDAY', label: 'Четверг'},
+  {value: 'FRIDAY', label: 'Пятница'},
+  {value: 'SATURDAY', label: 'Суббота'},
 ];
 
 const weekNumberOptions = [
@@ -33,7 +35,7 @@ export const ScheduleSelectors = () => {
   const currentWeekNumber = useSelector((state) => state.weekData.weekNumber);
   const currentWeekName = useSelector((state) => state.weekData.weekName);
 
-  const [currentWeekDay, setCurrentWeekDay] = useState(weekDay);
+  const [currentWeekDay, setCurrentWeekDay] = useState(matchDayOfWeek2(weekDay));
   const [selectedWeekNumber, setSelectedWeekNumber] = useState(currentWeekNumber);
 
   const [isCheckedNumerator, setIsCheckedNumerator] = useState(false);
@@ -52,7 +54,7 @@ export const ScheduleSelectors = () => {
   }, [currentWeekName]);
 
   const handleWeekDayChange = (selectedOption) => {
-    setCurrentWeekDay(selectedOption.value);
+    setCurrentWeekDay(matchDayOfWeek2(selectedOption.value));
     dispatch(setWeekDay(selectedOption.value));
     // updateWeekDay(selectedOption.value);
   };
