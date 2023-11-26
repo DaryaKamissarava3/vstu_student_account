@@ -12,7 +12,7 @@ export const StudentsSchedule = () => {
   const {studentsScheduleStatus, studentsScheduleData, studentsScheduleError} = useSelector((state) => state.schedule);
 
   return (
-    <MainLayout>
+    <>
       {studentsScheduleStatus === 'loading' && <Spinner type="points" text="Идёт загрузка"/>}
       {studentsScheduleError && <ErrorMessage error={studentsScheduleError}/>}
       {studentsScheduleStatus !== 'loading' && !studentsScheduleError && (
@@ -21,7 +21,7 @@ export const StudentsSchedule = () => {
           <Table scheduleData={studentsScheduleData} isTeacherSchedule={false}/>
         </>
       )}
-    </MainLayout>
+    </>
   );
 };
 

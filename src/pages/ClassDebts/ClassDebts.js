@@ -4,8 +4,8 @@ import {MainLayout} from '../../layouts/MainLayout';
 
 export const ClassDebts = () => {
   return (
-    <MainLayout>
+    <>
       Задолжности
-    </MainLayout>
+    </>
   );
 };

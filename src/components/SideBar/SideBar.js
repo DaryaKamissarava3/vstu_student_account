@@ -70,7 +70,7 @@ export const SideBar = () => {
         <button onClick={handleScheduleInfo} className="sidebar-button">
           <Link to="/schedule" >
             <div className="button-content">
-              <img src={logoutIcon} alt="Button icon" className="button_icon"/>
+              <img src={calendarIcon} alt="Button icon" className="button_icon"/>
               <span className="button_text">Расписание</span>
             </div>
           </Link>

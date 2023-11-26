@@ -27,7 +27,7 @@ export const Profile = () => {
 
 
   return (
-    <MainLayout>
+    <>
       <div className="profile">
         <div className="profile-block">
           <div className="profile-block__inner">
@@ -89,6 +89,6 @@ export const Profile = () => {
           </div>
         </div>
       </div>
-    </MainLayout>
+    </>
   );
 };

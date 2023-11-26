@@ -8,9 +8,12 @@ import bellIcon from '../../assets/images/headerIcons/Bell.svg';
 import avatarIcon from '../../assets/images/headerIcons/img-human.svg';
 
 import './style.css';
+import {shortenName} from "../../assets/utils/functions";
 
 export const Header = () => {
   const isAuthorized = useSelector((state) => state.auth.success);
+  const userName = useSelector((state) => state.auth.userInfo);
+  const userEmail = useSelector((state) => state.auth.userInfo);
 
   return (
     <>
@@ -37,8 +40,8 @@ export const Header = () => {
             <div className="block__item">
               <img className="block__img" src={avatarIcon} alt="Avatar icon"/>
               <div>
-                <p>User name</p>
-                <p>youremail@mail.ru</p>
+                <p>{shortenName(userName.fio)}</p>
+                <p>{userEmail.email}</p>
               </div>
             </div>
           </div>

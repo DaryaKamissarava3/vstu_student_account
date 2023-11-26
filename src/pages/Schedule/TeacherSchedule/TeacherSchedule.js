@@ -15,7 +15,7 @@ export const TeacherSchedule = () => {
   const scheduleArray = useSelector((state) => state.schedule.teacherScheduleData);
 
   return (
-    <MainLayout>
+    <>
       <div className="teacher-information-block">
         <img className="teacher-block-img" src={teacherImg} alt="Teacher img"/>
         <div>
@@ -27,6 +27,6 @@ export const TeacherSchedule = () => {
         scheduleData={scheduleArray}
         isTeacherSchedule={true}
       />
-    </MainLayout>
+    </>
   );
 };
