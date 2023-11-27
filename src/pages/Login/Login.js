@@ -52,7 +52,7 @@ export const Login = () => {
             {loading ? <Spinner type="circle"/> : 'Войти'}
           </button>
         </form>
-        {error && <ErrorModal error="Неверный логин или пароль"/>}
+        {error && <ErrorModal error={error}/>}
       </div>
     </AuthLayout>
   );

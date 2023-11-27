@@ -1,4 +1,4 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 const backendURL = 'https://ebook.vstu.by/authorization';
@@ -20,6 +20,11 @@ export const loginUser = createAsyncThunk(
         {username, password},
         config
       );
+      console.log(data.roles);
+
+      if (data.roles.includes('ADMIN') || data.roles.includes('USER')) {
+        return rejectWithValue("Доступ ограничен");
+      }
 
       return data;
     } catch (error) {
@@ -46,7 +51,6 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     logoutUser(state) {
-      localStorage.removeItem('userToken');
       state.userInfo = null;
       state.userToken = null;
       state.error = null;
@@ -77,6 +81,6 @@ const authSlice = createSlice({
   })
 });
 
-export const {logoutUser} = authSlice.actions;
+export const { logoutUser } = authSlice.actions;
 
 export const authReducer = authSlice.reducer;
