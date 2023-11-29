@@ -25,7 +25,6 @@ export const Profile = () => {
     dispatch(getStudentInfo(userToken));
   },[userToken]);
 
-
   return (
     <>
       <div className="profile">

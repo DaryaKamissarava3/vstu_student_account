@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
 
 export const getStudentInfo = createAsyncThunk(
@@ -27,6 +27,7 @@ export const getStudentInfo = createAsyncThunk(
 const initialState = {
   loading: false,
   studentInfo: null,
+  studentGroup: null,
   error: null,
 };
 
@@ -48,7 +49,8 @@ const studentSlice = createSlice({
       })
       .addCase(getStudentInfo.fulfilled, (state, action) => {
         state.loading = false;
-        state.studentInfo = action.payload
+        state.studentInfo = action.payload;
+        state.studentGroup = action.payload.group.name;
         state.error = null;
       })
       .addCase(getStudentInfo.rejected, (state, action) => {
@@ -58,6 +60,6 @@ const studentSlice = createSlice({
   })
 });
 
-export const { clearStudentInfo } = studentSlice.actions;
+export const {clearStudentInfo} = studentSlice.actions;
 
 export const studentReducer = studentSlice.reducer;

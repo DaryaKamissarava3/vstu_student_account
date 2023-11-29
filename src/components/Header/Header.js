@@ -8,12 +8,12 @@ import bellIcon from '../../assets/images/headerIcons/Bell.svg';
 import avatarIcon from '../../assets/images/headerIcons/img-human.svg';
 
 import './style.css';
-import {shortenName} from "../../assets/utils/functions";
+import {shortenName} from '../../assets/utils/functions';
 
 export const Header = () => {
   const isAuthorized = useSelector((state) => state.auth.success);
   const userName = useSelector((state) => state.auth.userInfo);
-  const userEmail = useSelector((state) => state.auth.userInfo);
+  const userGroup = useSelector((state) => state.student.studentGroup);
 
   return (
     <>
@@ -41,7 +41,7 @@ export const Header = () => {
               <img className="block__img" src={avatarIcon} alt="Avatar icon"/>
               <div>
                 <p>{shortenName(userName.fio)}</p>
-                <p>{userEmail.email}</p>
+                <p>{userGroup}</p>
               </div>
             </div>
           </div>
